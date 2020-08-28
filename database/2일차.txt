@@ -1,0 +1,54 @@
+■ DBMS( 데이터를 관리해주는 프로그램)
+- Oracle  , Mysql , Mariadb
+- 네트워크로 접속할 수 있는 서버!!
+  cf) Excel과 차이 (파일에 불과...)
+      - 여러사람이 접속한다는 개념 자체X
+
+■ DBMS를 제어하기 위해서는 명령어를 사용해야 함 
+    SQL(Structured Query Language: 구조화된 질의어)문이라 함 
+    - 데이터베이스에게 원하는것을 묻고 결과를 가져올수 있는 언어 
+    다행인것은, 모든 제품들이 표준 SQL을 지원하므로, 제품마다 언어를
+    다르게 사용하지 않는다..(단 미세한 차이는 있음) 
+
+■ SQL문의 유형 (총 3가지)
+   DDL(Database Definition Language): 데이터베이스 정의어 
+      - 생성(create), 수정(alter), 제거(drop)와 관련된 명령어               
+   DML(Data manipulation Langauge):
+      - 생성된 테이블에 데이터를 넣고(insert), 수정(update)하고, 
+        삭제(delete)하는 명령어 
+        일명 데이터 조작어라 한다
+   DCL(Database Control Lanaguage) : 데이터베이스 제어어 
+     주로 사용자에 대한 권한을 부여(grant), 뺏을때(revoke) 사용함 
+    
+■ 오라클 접속 클라이언트 프로그램 
+    설치시 무료로 자동으로 설치되는 접속 프로그램은 SQLPlus임
+
+   1) 접속방법 - window key + R  >  cmd 입력  > sqlplus
+   2) 관리자 계정으로 로그인 
+       우리가 만들지 않아도, 이미 최고 권한자가 존재함 
+       명칭 :  sys/ as sysdba 
+       - 참고로  sys 로 로그인시 비밀번호를 입력하지 않아도 인증이 되는
+         이유는? 우리가 윈도우 admin으로 로그인하여 오라클을 설치한 주체
+         이기 때문에 그냥 봐준다..우리는 os의 주인이다..
+
+■  SQLPlus에는 사용자가 콘솔화면 자체를 캡쳐해주는 기능이 있다.
+     spool   '기록할파일명'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

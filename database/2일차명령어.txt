@@ -1,0 +1,133 @@
+SQL> --sys 계정은 최상위 권한자 이므로,중요한 업무
+SQL> --를 다룰때 사용하므로, 개발자가 사용할 일이
+SQL> --없음..따라서  sys보다 하위에 관리자 계정인
+SQL> --system 계정을 사용해서 실습하자
+SQL> --다른 계정으로 로그인을 전환하려면 connect
+SQL> connect system/1234
+Connected.
+SQL> --현재 잘 들어온 건지 확인해보자 show user
+SQL> show user
+USER is "SYSTEM"
+SQL> --앞으로 테이블을 저장할 데이터베이스와 파일을
+SQL> --생성해보자
+SQL> --데이터베이스 생성 명령어
+SQL> create tablespace study
+  2  datafile 'C:\oraclexe\app\oracle\oradata\XE\study.dbf'
+  3  size 1M;
+
+Tablespace created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create  user  user0827
+  2  identified by user0827
+  3  default  tablespace study
+  4* quota  unlimited  on study
+SQL> /
+
+User created.
+
+SQL> --유저가 생성되었으면, 이 유저로 로그인해보자
+SQL> conn user0827/user0827
+ERROR:
+ORA-01045: user USER0827 lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> --생성된 유저는 아무런 권한이 없으므로
+SQL> --필요한 권한을 부여받아야 한다..
+SQL> show user
+USER is ""
+SQL> conn system/1234
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> --사용자에게 권한 주기
+SQL> grant create session to user0827;
+
+Grant succeeded.
+
+SQL> conn user0827/user0827
+Connected.
+SQL> show user
+USER is "USER0827"
+SQL> ed
+Wrote file afiedt.buf
+
+  1* grant create session to user0827
+SQL> --과제 풀어보기
+SQL> --system 비밀번호 변경 해보기 !!\
+SQL> conn sys/ as sysdba
+Connected.
+SQL> --존재의 변경은  alter로 한다
+SQL> alter user system
+  2  identified by manager;
+
+User altered.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  alter user system
+  2* identified by manager
+SQL> /
+
+User altered.
+
+SQL> --바뀐 비번으로 접속하기
+SQL> conn system/manager
+Connected.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create  tablespace  app
+  2  datafile 'C:\oraclexe\app\oracle\oradata\XE\app.dbf' 
+  3* size 10m
+SQL> /
+
+Tablespace created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create  user  dev
+  2  identified by 1234
+  3  default  tablespace app
+  4* quota unlimited  on app
+SQL> /
+
+User created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* grant  create session , create table  to dev
+SQL> /
+
+Grant succeeded.
+
+SQL> conn dev/1234
+Connected.
+SQL> create  table  member(
+  2  name varchar(20)
+  3  , money  number
+  4  , phone varchar(13)
+  5  );
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  insert into member(name,money,phone)
+  2* values('pet',3000,'010-7777-8888')
+SQL> /
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off
