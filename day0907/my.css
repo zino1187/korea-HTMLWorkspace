@@ -1,0 +1,6 @@
+        /* 로딩바 스타일 정의  */
+        .loader{
+            border:16px solid #f3f3f3; /*로딩 바 테두기 회색으로*/
+            width:150px;
+            height:150px;    
+        }
