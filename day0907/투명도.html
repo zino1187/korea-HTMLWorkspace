@@ -20,8 +20,13 @@
         }
         /*box에 hover시 mask 의 opacity를 투명하게 처리 */
         #box:hover #mask{
-            /*opacity 투명도 */
-            opacity: 0.4; /*  1 완전 불투명, 0 완전 투명*/
+            animation: alpha 1s;            
+            animation-iteration-count: 1;
+        }
+        @keyframes alpha {
+            0%{opacity: 1}
+            50%{opacity: 0.4}
+            100%{opacity: 0.4}
         }
     </style>        
 </head>
