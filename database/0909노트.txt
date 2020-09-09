@@ -1,0 +1,175 @@
+SQL> --group by 를 배움
+SQL> --group by 란? 말그대로 레코드를 그룹으로 묶는 쿼리
+SQL> --묶기 때문에 집계함수와 관련성이 깊다 (거의 같이 쓴다 )
+SQL> --JOB의 이름및 그 Job 을 맡은 사원수를 출력
+SQL> --결국 업무별 사원수 및 업무명을 출력하라
+SQL> select job from emp;
+
+JOB                                                                                                                                                                                                     
+------------------                                                                                                                                                                                      
+CLERK                                                                                                                                                                                                   
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+MANAGER                                                                                                                                                                                                 
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+PRESIDENT                                                                                                                                                                                               
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+14 rows selected.
+
+SQL> select job from emp group by job;
+
+JOB                                                                                                                                                                                                     
+------------------                                                                                                                                                                                      
+CLERK                                                                                                                                                                                                   
+SALESMAN                                                                                                                                                                                                
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+
+SQL> select job, count(*) from emp group by job;
+
+JOB                  COUNT(*)                                                                                                                                                                           
+------------------ ----------                                                                                                                                                                           
+CLERK                       4                                                                                                                                                                           
+SALESMAN                    4                                                                                                                                                                           
+PRESIDENT                   1                                                                                                                                                                           
+MANAGER                     3                                                                                                                                                                           
+ANALYST                     2                                                                                                                                                                           
+
+SQL> select job, count(*) as 맡은사원수 from emp group by job;
+
+JOB                맡은사원수                                                                                                                                                                           
+------------------ ----------                                                                                                                                                                           
+CLERK                       4                                                                                                                                                                           
+SALESMAN                    4                                                                                                                                                                           
+PRESIDENT                   1                                                                                                                                                                           
+MANAGER                     3                                                                                                                                                                           
+ANALYST                     2                                                                                                                                                                           
+
+SQL> select sum(sal), avg(sal) from emp group by deptno;
+
+  SUM(SAL)   AVG(SAL)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      9400 1566.66667                                                                                                                                                                                   
+     10875       2175                                                                                                                                                                                   
+      8750 2916.66667                                                                                                                                                                                   
+
+SQL> select sum(sal) as 급여합 , avg(sal) as 급여평균 from emp group by deptno;
+
+    급여합   급여평균                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      9400 1566.66667                                                                                                                                                                                   
+     10875       2175                                                                                                                                                                                   
+      8750 2916.66667                                                                                                                                                                                   
+
+SQL> select sum(sal), job from emp group by job;
+
+  SUM(SAL) JOB                                                                                                                                                                                          
+---------- ------------------                                                                                                                                                                           
+      4150 CLERK                                                                                                                                                                                        
+      5600 SALESMAN                                                                                                                                                                                     
+      5000 PRESIDENT                                                                                                                                                                                    
+      8275 MANAGER                                                                                                                                                                                      
+      6000 ANALYST                                                                                                                                                                                      
+
+SQL> --부서번호(deptno)별 급여의 평균, 부서번호(deptno)를 출력하시오
+SQL> select avg(sa) , deptno from emp group by deptno;
+select avg(sa) , deptno from emp group by deptno
+           *
+ERROR at line 1:
+ORA-00904: "SA": invalid identifier 
+
+
+SQL> select avg(sal) , deptno from emp group by deptno;
+
+  AVG(SAL)     DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+1566.66667         30                                                                                                                                                                                   
+      2175         20                                                                                                                                                                                   
+2916.66667         10                                                                                                                                                                                   
+
+SQL> --4)Adams의 관리자가 소속된 부서의 급여합을 출력하시오
+SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE        SAL       COMM     DEPTNO                                                                                                 
+---------- -------------------- ------------------ ---------- -------- ---------- ---------- ----------                                                                                                 
+      7369 SMITH                CLERK                    7902 80/12/17        800                    20                                                                                                 
+      7499 ALLEN                SALESMAN                 7698 81/02/20       1600        300         30                                                                                                 
+      7521 WARD                 SALESMAN                 7698 81/02/22       1250        500         30                                                                                                 
+      7566 JONES                MANAGER                  7839 81/04/02       2975                    20                                                                                                 
+      7654 MARTIN               SALESMAN                 7698 81/09/28       1250       1400         30                                                                                                 
+      7698 BLAKE                MANAGER                  7839 81/05/01       2850                    30                                                                                                 
+      7782 CLARK                MANAGER                  7839 81/06/09       2450                    10                                                                                                 
+      7788 SCOTT                ANALYST                  7566 87/04/19       3000                    20                                                                                                 
+      7839 KING                 PRESIDENT                     81/11/17       5000                    10                                                                                                 
+      7844 TURNER               SALESMAN                 7698 81/09/08       1500          0         30                                                                                                 
+      7876 ADAMS                CLERK                    7788 87/05/23       1100                    20                                                                                                 
+      7900 JAMES                CLERK                    7698 81/12/03        950                    30                                                                                                 
+      7902 FORD                 ANALYST                  7566 81/12/03       3000                    20                                                                                                 
+      7934 MILLER               CLERK                    7782 82/01/23       1300                    10                                                                                                 
+
+14 rows selected.
+
+SQL> select sum(sal) from emp where deptno=20;
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+     10875                                                                                                                                                                                              
+
+SQL> --select sum(sal) from emp where deptno=(Adams의 관리자가 소속된 부서);
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(sal) from emp where deptno=(
+  2    select deptno from emp 
+  3    where empno = ( select empno from emp where mrg=(
+  4      select mrg from emp where ename='ADAMS'
+  5     ))
+  6* )
+SQL> /\
+  where empno = ( select empno from emp where mrg=(
+                                              *
+ERROR at line 3:
+ORA-00904: "MRG": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(sal) from emp where deptno=(
+  2    select deptno from emp 
+  3    where empno = ( select empno from emp where mgr=(
+  4      select mrg from emp where ename='ADAMS'
+  5     ))
+  6* )
+SQL> /
+    select mrg from emp where ename='ADAMS'
+           *
+ERROR at line 4:
+ORA-00904: "MRG": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(sal) from emp where deptno=(
+  2    select deptno from emp 
+  3    where empno = ( select empno from emp where mgr=(
+  4      select mgr from emp where ename='ADAMS'
+  5     ))
+  6* )
+SQL> /
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+     10875                                                                                                                                                                                              
+
+SQL> spool off

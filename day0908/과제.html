@@ -4,14 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #wrapper{
+            width:430px;
+            height:220px;
+            background:yellow;
+            margin:auto;
+            padding:10px; /*top right bottom left 모두 10px 의 패딩값을 가짐*/
+            box-sizing: border-box;
+        }
+        .box{
+            width:200px;
+            height:200px;
+            background:url(https://www.theuiaa.org/wp-content/uploads/2017/12/2018_banner.jpg);
+            background-size: 200px 200px; /*width 200, height 200*/
+            display: inline-block;
+            border:5px solid #09c953;
+            box-sizing: border-box;
+
+        }
+        .mask{
+            width:100%;
+            height:100%;
+            background:black;
+        }
+        /*box에 마우스를 올려놓으면,  mask 클래스의 속성을 변경,제어*/
+        .box:hover .mask{
+            /*opacity: 0.5;*/
+            /*에니메이션의 마지막 프레임을 유지해야 함*/
+            animation: overlay 1s forwards;
+        } 
+
+        /*에니메이션 정의 */
+        @keyframes overlay{
+            from{opacity: 0.5}
+            to{opacity: 0}
+        }
+    </style>
 </head>
 <body>
     <div id="wrapper">
         <div class="box">
             <div class="mask"></div>
         </div>
-        
-        <div class="box">
+
+        <div class="box" style="transform:scaleY(-1)">
             <div class="mask"></div>
         </div>
     </div>    
